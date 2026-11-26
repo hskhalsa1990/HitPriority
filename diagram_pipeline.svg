@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 180" font-family="Arial, sans-serif">
+  <title>HitPriority analysis pipeline</title>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+  <g font-size="15" text-anchor="middle">
+    <rect x="10"  y="60" width="130" height="60" rx="8" fill="#E5F5F0" stroke="#66C2A5"/><text x="75" y="95">Raw plate CSV</text>
+    <rect x="175" y="60" width="130" height="60" rx="8" fill="#E5F5F0" stroke="#66C2A5"/><text x="240" y="95">Normalisation</text>
+    <rect x="340" y="60" width="130" height="60" rx="8" fill="#E5F5F0" stroke="#66C2A5"/><text x="405" y="95">Penalty (k)</text>
+    <rect x="505" y="60" width="130" height="60" rx="8" fill="#E5F5F0" stroke="#66C2A5"/><text x="570" y="95">Hit calling</text>
+    <rect x="670" y="60" width="130" height="60" rx="8" fill="#FFF2AE" stroke="#E6AB02"/><text x="735" y="95">Plate QC</text>
+    <rect x="825" y="60" width="130" height="60" rx="8" fill="#8DA0CB" stroke="#7570B3"/><text x="890" y="95" fill="#fff">Hit candidates</text>
+  </g>
+  <g stroke="#444" stroke-width="2" marker-end="url(#a)">
+    <line x1="140" y1="90" x2="175" y2="90"/><line x1="305" y1="90" x2="340" y2="90"/>
+    <line x1="470" y1="90" x2="505" y2="90"/><line x1="635" y1="90" x2="670" y2="90"/>
+    <line x1="800" y1="90" x2="825" y2="90"/>
+  </g>
+  <text x="480" y="165" font-size="13" text-anchor="middle" fill="#555">Each step runs in the app; QC results appear on the Plate QC and Visuals tabs.</text>
+</svg>

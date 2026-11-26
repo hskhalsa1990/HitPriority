@@ -1,0 +1,31 @@
+# Changelog
+
+## Unreleased
+- Added: figures in the README (flow chart, 3D surface and scatter, 2D graph, line graph, bar charts, simulation, CFD-style flow, comparison table), generated from synthetic data.
+- Changed: project flattened to one folder (no sub-folders). Source paths updated. `.github/workflows` remains because GitHub requires it.
+- Changed: README rewritten with a file map and Mermaid diagrams (architecture, pipeline, hit classes), an ASCII QC view and a method comparison table.
+- Added: box plot by well type, all-plates heatmap, and a pipeline process diagram in the Visuals tab.
+- Added: tests for the new helpers.
+- Added: Visuals tab with bar charts (hit class, per plate), 2D and 3D scatter, 3D surface of a plate, a noise simulation of hit rates (Monte Carlo), an illustrative CFD-style channel flow field, and a comparison table.
+- Added: `src/utils/viz_helpers.R` with tested helper functions for these views.
+- Note: the flow field is an educational Poiseuille profile, not a CFD solver.
+- Changed: remaining short headings in the UI (edge effect check, where to find things) are in Punjabi.
+- Changed: sidebar labels and main buttons in the UI are in Punjabi. Input IDs are unchanged.
+- Changed: app.R split into `R/ui/ui.R` and `R/server/` (core, results, qc, session). app.R now only sets up and sources these files.
+- Changed: tab titles and download buttons in the UI are in Punjabi. Input IDs and values are unchanged.
+- Added: tests that check the split files exist and parse.
+- Changed: `calc_distances.R` no longer attaches data.table when sourced; it uses `data.table::` explicitly.
+- Added: tests for the point-to-line distance helpers.
+- Changed: removed a duplicate `library(shinyWidgets)` call in app.R.
+- Changed: CI workflow now installs `openxlsx` so the Excel report test runs instead of being skipped.
+- Added: tests for threshold hit-rate percentages and the k-suggestion plateau fallback.
+- Changed: the Z' cutoff (0.4) is defined once as `ZF_DEFAULT_CUTOFF` in `src/utils/qc_helpers.R` and used by the QC plot, the run health banner, the exclusion button and the raw-data check.
+- Added: unit tests for missing hit flags, masked-well filtering, the Excel report builder and the shared Z' cutoff.
+- Added: Hit candidates tab, threshold sensitivity, Plate QC tab (bars + heatmaps), settings save/load, input validation, hit_candidates.csv in export.
+- Fixed: hard-coded output path, SessionZip location, rest-of-deck sampling (10000 -> 1000), `done_out`, duplicate `corr_tbl_all`, `sd||SB` regex, Windows chmod.
+- Added: dark mode, Excel report (openxlsx), automatic k suggestion tab.
+- Added: run health banner, edge-effect check, dark-themed plots.
+- Added: hit-class filter, plate hit-rate chart, settings.json in export, install_dependencies.R, testthat tests. Changed: hit_candidates.csv now written next to the report.
+- Added: control drift chart, Help tab, GitHub Actions test workflow.
+- Added: manual / Z'-based plate exclusion (masking).
+- Added: Load example data and Reset to defaults buttons.

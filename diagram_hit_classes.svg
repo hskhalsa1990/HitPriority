@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" font-family="Arial, sans-serif">
+  <title>Hit classes after penalty</title>
+  <defs><marker id="b" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+  <g font-size="15" text-anchor="middle">
+    <rect x="20"  y="30"  width="200" height="60" rx="8" fill="#FFF2AE" stroke="#E6AB02"/><text x="120" y="66">Classical hit</text>
+    <rect x="20"  y="150" width="200" height="60" rx="8" fill="#E5F5F0" stroke="#66C2A5"/><text x="120" y="186">Penalised-only hit</text>
+    <rect x="360" y="0"   width="240" height="60" rx="8" fill="#C7E9C0" stroke="#41AB5D"/><text x="480" y="36">Confirmed hit</text>
+    <rect x="360" y="90"  width="240" height="60" rx="8" fill="#FDCDAC" stroke="#D95F02"/><text x="480" y="126">Deprioritised (likely artefact)</text>
+    <rect x="360" y="180" width="240" height="60" rx="8" fill="#E5F5F0" stroke="#66C2A5"/><text x="480" y="216">Penalised-only hit</text>
+  </g>
+  <g stroke="#444" stroke-width="2" marker-end="url(#b)" fill="none">
+    <path d="M220 60 L360 30"/><path d="M220 60 L360 120"/><path d="M220 180 L360 210"/>
+  </g>
+  <text x="660" y="36"  font-size="13" fill="#333">Kept as hit after penalty</text>
+  <text x="660" y="126" font-size="13" fill="#333">Removed by penalty</text>
+</svg>

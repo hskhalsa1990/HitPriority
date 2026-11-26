@@ -1,0 +1,217 @@
+---
+title: "Prime Hits Report"
+date: "`r Sys.Date()`"
+output:
+  word_document:
+   reference_docx: report_style.docx
+#  pdf_document:
+#    latex_engine: pdflatex # Or lualatex (both have excellent Unicode support)
+#    keep_tex: TRUE # Useful for debugging if issues arise
+#    fig_crop: FALSE
+#geometry: "margin=0.1in"  # Adjust margins if needed
+# Other font options: Arial Unicode MS, FreeSerif, etc.
+# You might also need to specify sansfont, monofont if used
+#classoption: landscape
+params:
+  target: NA
+  stage: NA
+  run: NA
+  Ch1_norm: NA
+  Ch2_norm: NA
+  scale_scope: NA
+  col_to_penalise: NA
+  equation: NA
+  zero_limit: NA
+  channel_flip: NA
+  hit_threshold: NA
+  norm_plots: NA
+  run_summary: NA
+  d_dens_plot: NA
+  combined_plot: NA
+  df_normw_plot: NA
+  df_export_plot_ratio: NA
+  df_export_plot_penalised: NA
+  zoom_Ch1_raw: NA
+  zoom_Ch2_raw: NA
+  hit_tbl_tags: NA
+  hit_tbl: NA
+  plates_wide: NA
+  
+  
+  
+header-includes:
+  - \usepackage{booktabs}
+#  - \usepackage{longtable}
+#  - \usepackage{array}
+#  - \usepackage{multirow}
+#  - \usepackage{wrapfig}
+  - \usepackage{float}
+  - \usepackage{colortbl}
+#  - \usepackage{pdflscape}
+#  - \usepackage{tabu}
+#  - \usepackage{threeparttable}
+#  - \usepackage[normalem]{ulem}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(patchwork)
+library(tidyverse)
+library(kableExtra)
+
+library(knitr)
+# Define formatting function
+# Custom function to format numbers based on conditions
+format_number <- function(x) {
+  sapply(x, function(val) {
+    if (abs(val) > 1000 || abs(val) < 0.01) {
+      return(formatC(val, format = "e", digits = 2)) # Scientific notation
+    } else {
+      return(as.character(round(val, 2))) # Round to two decimal places
+    }
+  })
+}
+
+```
+
+
+
+## Parameters used:
+
+  
+* Target: `r params$target`
+
+* Stage: `r params$stage`
+
+* Run: `r params$run`
+
+* Ch1 (X-axis) normalisation: `r params$Ch1_norm`
+
+* Ch2 (Y-axis) normalisation: `r params$Ch2_norm`
+
+* Normalisation scope: `r params$scale_scope`
+
+* Column to penalise: `r params$col_to_penalise`
+
+* Hit threshold: `r params$hit_threshold`
+
+* Equation: `r params$equation`
+
+* Limit penalized number to max of zero: `r params$zero_limit`
+
+* Acceptor First: `r params$channel_flip`
+
+
+## Run summary 
+
+### Normalisation center and scale and Density of d 
+
+```{r norm_plots, echo=FALSE, fig.width=12, fig.height=4}
+params$norm_plots 
+```
+
+### Run Summary Table
+
+```{r run_summary,fig.width=12, fig.height=4, echo=FALSE}
+
+formatted_run_summary <- select(params$run_summary,feature,median_Compound:`median_Positive Control`,mad_Compound:`mad_Positive Control`,rCV_Compound:`rCV_Positive Control`) %>%
+  mutate(across(
+    where(is.numeric),
+    ~ format_number(.x)
+  ))
+
+# Output kable with scaling
+kable(formatted_run_summary, booktabs = TRUE, caption="Run summary")# %>%
+  #kable_styling(latex_options = c("striped", "scale_down", position = "H"))
+
+# # Create a flextable from your data frame
+# ft <- flextable(formatted_run_summary)
+# 
+# # Optional: Configure the theme to be somewhat similar to a stripped effect
+# ft <- theme_vanilla(ft) 
+# 
+# # Autofit to adjust to the content
+# ft <- autofit(ft)
+# 
+# # Optional: You can add features similar to striped rows using color shading
+# ft <- bg(ft, i = seq(from = 1, to = nrow(formatted_run_summary), by = 2), bg = "#F0F0F0")
+# 
+# # (Flextable doesn't directly support caption in PDF, adjust document format accordingly)
+# ft
+```
+
+### Density of d  
+
+```{r d_dens_plot, echo=FALSE, fig.width=12, fig.height=4}
+params$d_dens_plot 
+```
+
+\newpage
+
+## Penaltry strength plots
+
+`r params$equation`
+
+```{r combined_plot, echo=FALSE, fig.width=12, fig.height=8.1}
+
+params$combined_plot
+```
+
+## Heatplot of penalised values in normalised space 
+
+```{r df_normw_plot, echo=FALSE, fig.width=12, fig.height=5}
+params$df_normw_plot
+```
+
+## Heatplot of penalised and non-penalised values in raw space 
+
+```{r plots_both_penalty, echo=FALSE, fig.width=12, fig.height=8}
+df_export_plot_ratio_zoom<- params$df_export_plot_ratio+coord_cartesian(xlim=params$zoom_Ch1_raw,ylim=params$zoom_Ch2_raw)
+df_export_plot_penalised_zoom <- params$df_export_plot_penalised+coord_cartesian(xlim=params$zoom_Ch1_raw,ylim=params$zoom_Ch2_raw)
+df_export_plot_ratio_zoom / df_export_plot_penalised_zoom
+```
+
+
+##  Actives by Well Type
+
+```{r Actives by Well Type, echo=FALSE}
+# kable(params$hit_tbl, format = "latex", booktabs = TRUE, caption="Actives by Well Type") %>%
+#   kable_styling(latex_options = c("striped", "scale_down", position = "H"))
+
+kable(params$hit_tbl, caption="Actives by Well Type")                
+```
+
+##  Actives by tag
+
+```{r Actives by Well Tag,echo=FALSE}
+# kable(params$hit_tbl_tags, format = "latex", booktabs = TRUE, caption="Actives by Well Tag") %>%
+#   kable_styling(latex_options = c("striped", "scale_down", position = "H"))
+kable(params$hit_tbl_tags, caption="Actives by Well Tag")                           
+```
+
+
+## Plate Summary Table
+
+```{r all_plates, echo=FALSE}
+
+
+
+plates_wide <- select(params$plates_wide,feature,`Plate ID`,median_Compound:`median_Positive Control`,mad_Compound:`mad_Positive Control`,rCV_Compound:`rCV_Positive Control`,rSB,rZf)
+
+# Create a copy of plates_wide with formatted results as character columns
+formatted_plates_wide <- plates_wide %>% na.omit %>%
+  mutate(`Plate ID`=as.character(`Plate ID`)) %>%
+  mutate(across(
+    where(is.numeric),
+    ~ format_number(.x)
+  ))
+
+names(formatted_plates_wide) <- str_remove(names(formatted_plates_wide),"Control")
+names(formatted_plates_wide) <- str_replace(names(formatted_plates_wide),"Compound","Cpd")
+# # Output kable with scaling
+# kable(formatted_plates_wide, format = "latex", booktabs = TRUE, caption="Plate Stats") %>%
+#   kable_styling(latex_options = c("striped", "scale_down", position = "H"))
+
+kable(formatted_plates_wide, caption="Plate Stats")
+```
